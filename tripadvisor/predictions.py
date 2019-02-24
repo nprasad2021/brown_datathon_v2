@@ -26,8 +26,11 @@ df['user_id'] = df['user_id'].apply(lambda x: user_index_map[x])
 
 df['hotel_id'] = df['hotel_id'].apply(lambda x: hotel_index_map[x])
 
-user_ids = np.array(sorted(list(df.user_id)))
-hotel_ids = np.array(sorted(list(df.hotel_id)))
+#user_ids = np.array(sorted(list(df.user_id)))
+#hotel_ids = np.array(sorted(list(df.hotel_id)))
+user_ids = np.array(df['user_id'])
+hotel_ids = np.array(df['hotel_id'])
+
 
 model = keras.models.load_model("mf.h5")
 results = model.predict([user_ids, hotel_ids])
@@ -46,6 +49,7 @@ def get_recs(results):
 
 	for user in sample_users:
 		sub_result = results.loc[results['user_id']==user].sort_values('results',ascending=False)
+		print(sub_result)
 		recommendations[user] = list(sub_result['hotel_id'])[:5]
 		if(len(recommendations[user]) == len(set(recommendations[user]))):
 			print("non-unique hotels")
