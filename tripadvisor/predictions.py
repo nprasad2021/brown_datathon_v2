@@ -1,6 +1,11 @@
 import keras
 import util
 import numpy as np
+import pickle
+import pandas as pd
+import plotly.plotly as py
+import plotly.graph_objs as go
+
 
 NUM_SAMPLES = 40
 DATAFRAME_NAME = "new.csv"
@@ -27,41 +32,13 @@ hotel_ids = np.array(sorted(list(df.hotel_id)))
 model = keras.models.load_model("nn.h5")
 results = model.predict([user_ids, hotel_ids])
 
+np.savez("results.npz", results=results)
+
 user_ids = [inverse_user_map[id] for id in user_ids]
 hotel_ids = [inverse_hotel_map[id] for id in hotel_ids]
 
 results_df = pd.DataFrame(data = [user_ids, hotel_ids, results], columns = ['user_ids','hotel_ids','results'])
 
-def topo_graph(results)
-	sparse_matrix = np.array(results).reshape(len(set(sparse_df['user_id'])),-1)
-
-	import plotly.plotly as py
-	import plotly.graph_objs as go
-
-	import pandas as pd
-
-	z_data = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv')
-	print(z_data.as_matrix().shape)
-	data = [
-	    go.Surface(
-	        z=sparse_matrix[:1000, :]
-	    )
-	]
-	layout = go.Layout(
-	    title='Dense Matrix Topography',
-	    autosize=False,
-	    width=500,
-	    height=500,
-	    margin=dict(
-	        l=65,
-        	r=50,
-        	b=65,
-        	t=90
-    		)
-	)
-	fig = go.Figure(data=data, layout=layout)
-	py.plot(fig, filename='elevations-3d-surface')
-	return fig
 
 def get_recs(results):
 	sample_users = np.random.choice(user_ids, NUM_SAMPLES)
