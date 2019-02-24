@@ -4,7 +4,8 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 
 results = np.load("results.npz")['results']
-sparse_matrix = np.array(results).reshape(len(set(sparse_df['user_id'])),-1)
+print(results.shape)
+sparse_matrix = np.array(results).reshape((len(np.unique(results)),-1))
 
 data = [
     go.Surface(
@@ -25,3 +26,4 @@ layout = go.Layout(
 )
 
 fig = go.Figure(data=data, layout=layout)
+py.plot(fig, filename="elevations")

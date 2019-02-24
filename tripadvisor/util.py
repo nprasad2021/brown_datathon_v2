@@ -10,8 +10,8 @@ import pickle
 current_path = os.getcwd()
 
 if "om" not in current_path:
-    ACTIVITY_DATA = "activity_data.csv"
-    HOTEL_DATA = "hotel_data.csv"
+    ACTIVITY_DATA = "/Users/neeraj/Documents/Hackathons/data_brown_datathon/TripAdvisor/activity_data.csv"
+    HOTEL_DATA = "/Users/neeraj/Documents/Hackathons/data_brown_datathon/TripAdvisor/hotel_data.csv"
 
 
 def create_rec_data(output_file):
@@ -144,12 +144,17 @@ def create_sparse_matrix(output_file, replace=True):
 
     for uid in user_ids:
         for hid in hotel_ids:
-            sparse_dict[(uid, hid)] = 0
+            
             if (uid, hid) in dfdict:
-                try:
-                    sparse_dict[(uid, hid)] = dfdict[(uid, hid)]['user_action']
-                except:
-                    print((uid, hid))
+                sparse_dict[(uid, hid)] = dfdict[(uid, hid)]['user_action']
+                
+
+            else:
+                if np.random.randn() < 0.05:
+                    sparse_dict[(uid, hid)] = 0
+                else:
+                    continue
+
 
 
     keys = list(sparse_dict.keys()); print(type(keys))

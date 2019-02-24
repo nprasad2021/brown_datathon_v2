@@ -29,7 +29,7 @@ df['hotel_id'] = df['hotel_id'].apply(lambda x: hotel_index_map[x])
 user_ids = np.array(sorted(list(df.user_id)))
 hotel_ids = np.array(sorted(list(df.hotel_id)))
 
-model = keras.models.load_model("nn.h5")
+model = keras.models.load_model("mf.h5")
 results = model.predict([user_ids, hotel_ids])
 np.savez("results.npz", results=results)
 
@@ -41,12 +41,14 @@ results = pd.DataFrame(results)
 
 
 def get_recs(results):
-	sample_users = np.random.choice(user_ids, NUM_SAMPLES)
+	sample_users = np.random.choice(list(set(user_ids)), NUM_SAMPLES)
 	recommendations = {}
 
 	for user in sample_users:
 		sub_result = results.loc[results['user_id']==user].sort_values('results',ascending=False)
 		recommendations[user] = list(sub_result['hotel_id'])[:5]
+		if(len(recommendations[user]) == len(set(recommendations[user]))):
+			print("non-unique hotels")
 	return recommendations	
 
 with open('recommendations.pkl', 'wb') as handle:
