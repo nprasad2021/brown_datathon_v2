@@ -10,8 +10,8 @@ import pickle
 current_path = os.getcwd()
 
 if "om" not in current_path:
-    ACTIVITY_DATA = "activity_data.csv"
-    HOTEL_DATA = "hotel_data.csv"
+    ACTIVITY_DATA = "/Users/neeraj/Documents/Hackathons/data_brown_datathon/TripAdvisor/activity_data.csv"
+    HOTEL_DATA = "/Users/neeraj/Documents/Hackathons/data_brown_datathon/TripAdvisor/hotel_data.csv"
 
 
 def create_rec_data(output_file):
