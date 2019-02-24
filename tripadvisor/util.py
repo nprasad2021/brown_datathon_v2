@@ -10,11 +10,8 @@ import pickle
 current_path = os.getcwd()
 
 if "om" not in current_path:
-    ACTIVITY_DATA = "/Users/neeraj/Documents/Hackathons/data_brown_datathon/TripAdvisor/activity_data.csv"
-    HOTEL_DATA = "/Users/neeraj/Documents/Hackathons/data_brown_datathon/TripAdvisor/hotel_data.csv"
-else:
-    ACTIVITY_DATA = "/om/user/nprasad/data_brown_datathon/activity_data.csv"
-    HOTEL_DATA = "/om/user/nprasad/data_brown_datathon/hotel_data.csv"
+    ACTIVITY_DATA = "activity_data.csv"
+    HOTEL_DATA = "hotel_data.csv"
 
 
 def create_rec_data(output_file):
@@ -30,7 +27,8 @@ def create_rec_data(output_file):
         return encodings[a]
 
     activity_df['user_action'] = activity_df['user_action'].apply(encode)
-    activity_df = activity_df.drop(columns=['date', 'user_country', 'device'])
+    activity_df = pandas.get_dummies(activity_df,columns = ['device', 'user_country'])
+    activity_df = activity_df.drop(columns=['date', 'device'])
 
     hotel_df = hotel_df['hotel_name']
 
@@ -82,7 +80,7 @@ def create_sparse_matrix(output_file, replace=True):
             return encodings[a]
 
         activity_df['user_action'] = activity_df['user_action'].apply(encode)
-        activity_df = pd.get_dummies(activity_df, columns=['device'])
+        activity_df = pd.get_dummies(activity_df, columns=['device','user_country'])
         activity_df['event_count'] = 1
 
         def geocode(a):
@@ -90,7 +88,7 @@ def create_sparse_matrix(output_file, replace=True):
             return g.lat, g.lng
 
         # activity_df['usr_lat'], activity_df['usr_long'] = activity_df['user_country'].apply(geocode)
-        activity_df = activity_df.drop(columns=['user_country', 'date'])
+        activity_df = activity_df.drop(columns=['date'])
 
         current_time = time.time()
         decay = lambda coef, x: coef * math.e ** ((current_time - x) / -(86400000 * DISCOUNT / 0.693147181))
