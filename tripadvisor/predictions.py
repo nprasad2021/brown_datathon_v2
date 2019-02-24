@@ -10,7 +10,7 @@ import plotly.graph_objs as go
 NUM_SAMPLES = 40
 DATAFRAME_NAME = "new.csv"
 
-df = util.create_sparse_matrix(DATAFRAME_NAME, replace=False)
+df = util.create_sparse_matrix(DATAFRAME_NAME, replace=False)#.iloc[:1000, :]
 
 n_users, n_movies = len(df.user_id.unique()), len(df.hotel_id.unique())
 
@@ -31,13 +31,13 @@ hotel_ids = np.array(sorted(list(df.hotel_id)))
 
 model = keras.models.load_model("nn.h5")
 results = model.predict([user_ids, hotel_ids])
-
 np.savez("results.npz", results=results)
 
 user_ids = [inverse_user_map[id] for id in user_ids]
 hotel_ids = [inverse_hotel_map[id] for id in hotel_ids]
 
-results_df = pd.DataFrame(data = [user_ids, hotel_ids, results], columns = ['user_ids','hotel_ids','results'])
+results = {'user_id':list(user_ids), 'hotel_id':list(hotel_ids), 'results':list(results)}
+results = pd.DataFrame(results)
 
 
 def get_recs(results):
@@ -50,4 +50,4 @@ def get_recs(results):
 	return recommendations	
 
 with open('recommendations.pkl', 'wb') as handle:
-	pickle.dump(get_recs(results_df),handle)
+	pickle.dump(get_recs(results),handle)
