@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.graph_objs as go
 import plotly
 
-corr = pd.read_csv(r'C:\Users\Isaiah Nields\Documents\GitHub\brown_datathon\data\processed_data_corr.csv')
+corr = pd.read_csv(r'C:\Users\Isaiah Nields\Documents\GitHub\brown_datathon_v2\data\processed_data_corr.csv')
 
 trace = go.Heatmap(z=corr,
                    x=corr.columns,
