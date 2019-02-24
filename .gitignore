@@ -1,0 +1,11 @@
+.idea/*
+**.pdf
+**.csv
+**.txt
+venv/*
+data/*
+**.ipynb_checkpoints
+**.pyc
+**.pkl
+**.sh
+**.npz
