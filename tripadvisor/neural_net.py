@@ -7,6 +7,7 @@ from sklearn.metrics import mean_absolute_error
 import util
 import keras
 import os
+import pickle
 print(keras.__version__)
 
 DATAFRAME_NAME = './new.csv'
@@ -21,6 +22,12 @@ hotel_index_map = {ids:i for (ids, i) in zip(list(set(df['hotel_id'])),list(rang
 df['hotel_id'] = df['hotel_id'].apply(lambda x: hotel_index_map[x])
 print(df.head())
 train, test = train_test_split(df, test_size=0.2)
+
+with open('user_id_map.pkl',wb) as handle:
+	pickle.dump(user_index_map, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+with open('hotel_id_map.pkl',wb) as handle:
+	pickle.dump(hotel_index_map, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 print(n_users, n_movies)	
 
