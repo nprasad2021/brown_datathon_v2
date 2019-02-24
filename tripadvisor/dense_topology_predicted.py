@@ -4,8 +4,9 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 
 results = np.load("results.npz")['results']
+results = results[:9969820]
 print(results.shape)
-sparse_matrix = np.array(results).reshape((len(np.unique(results)),-1))
+sparse_matrix = np.array(results).reshape(24140,-1)
 
 data = [
     go.Surface(
