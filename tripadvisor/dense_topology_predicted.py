@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.plotly as py
 import plotly.graph_objs as go
 
-results = np.load("results.npz")['results']
+results = np.load(r"C:\Users\Isaiah Nields\Documents\GitHub\brown_datathon_v2\tripadvisor\results.npz")['results']
 results = results[:9969820]
 print(results.shape)
 sparse_matrix = np.array(results).reshape(24140,-1)
@@ -15,16 +15,7 @@ data = [
 ]
 layout = go.Layout(
     title='Dense Matrix Topography',
-    autosize=False,
-    width=500,
-    height=500,
-    margin=dict(
-        l=65,
-    	r=50,
-    	b=65,
-    	t=90
-		)
+    autosize=True
 )
 
 fig = go.Figure(data=data, layout=layout)
-py.plot(fig, filename="elevations")

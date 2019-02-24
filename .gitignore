@@ -8,4 +8,5 @@ data/*
 **.pyc
 **.pkl
 **.sh
-**.npz
+tripadvisor/results.npz
+tripadvisor/topo_map.npz
