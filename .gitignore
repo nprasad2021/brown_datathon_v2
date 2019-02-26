@@ -12,3 +12,4 @@ tripadvisor/results.npz
 tripadvisor/topo_map.npz
 **.npz
 **.h5
+geocodes.cvs
